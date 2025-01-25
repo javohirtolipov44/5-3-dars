@@ -12,28 +12,21 @@ const io = new Server(server);
 io.on("connection", (socket) => {
   const username = socket.handshake.headers.username;
 
-  console.log(`${username} ulanishi boshlandi`);
+  console.log(`${username} tarmoqqa qo'shildi`);
 
-  // Xonaga qo'shilish
   socket.on("joinRoom", (room) => {
-    socket.join(room); // Xonaga qo'shish
+    socket.join(room);
     console.log(`${username} ${room} xonasiga qo'shildi`);
-
-    // Xonadagi barcha foydalanuvchilarga xabar yuborish
-    io.to(room).emit("message", `${username} xonaga qo'shildi (${room})`);
+    io.to(room).emit("message", `${username} (${room}) xonasiga qo'shildi`);
   });
 
-  // Xonadan chiqish
   socket.on("leaveRoom", (room) => {
-    socket.leave(room); // Xonadan chiqish
+    socket.leave(room);
     console.log(`${username} ${room} xonasidan chiqdi`);
-
-    // Xonadagi barcha foydalanuvchilarga xabar yuborish
-    io.to(room).emit("message", `${username} xonadan chiqdi (${room})`);
+    io.to(room).emit("message", `${username} (${room}) xonasidan chiqdi`);
   });
 
-  // Client uzilganda
   socket.on("disconnect", () => {
-    console.log(`${username} ulanishi uzildi`);
+    console.log(`${username} tarmoqdan shiqdi`);
   });
 });
